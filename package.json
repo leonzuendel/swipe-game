@@ -10,7 +10,9 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "test": "jest"
+    "test": "jest",
+    "heroku-run-build-script": "yarn build",
+    "push-master": "git push && git add . && git commit -m 'master update' && git push origin HEAD:master"
   },
   "dependencies": {
     "@directus/sdk-js": "^6.1.1",
