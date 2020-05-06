@@ -1,0 +1,17 @@
+/* Variables */
+
+:root {
+  --main-color: #e3e3e3;
+}
+
+/* Main */
+
+/* Cards */
+
+.card {
+  height: 500px;
+  width: 300px;
+  border-radius: 15px;
+  background-color: var(--main-color);
+  margin: 20vh auto;
+}
