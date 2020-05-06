@@ -1,8 +1,8 @@
 <template>
   <Vue2InteractDraggable
     :interact-max-rotation="15"
-    :interact-out-of-sight-x-coordinate="500"
-    :interact-x-threshold="200"
+    :interact-out-of-sight-x-coordinate="800"
+    :interact-x-threshold="150"
     class="card"
     @draggedRight="draggedRight"
   >
