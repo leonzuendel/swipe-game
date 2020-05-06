@@ -6,9 +6,7 @@
     class="card"
     @draggedRight="draggedRight"
   >
-    <div>
-      <h3>Drag me!</h3>
-    </div>
+    <div></div>
   </Vue2InteractDraggable>
 </template>
 
