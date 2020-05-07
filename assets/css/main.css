@@ -59,7 +59,8 @@ h1 {
   right: 0;
   width: 100%;
   height: var(--top-bar-height);
-  background-color: var(--main-color);
+  background-color: lightgrey;
+  z-index: 90;
 }
 
 /* Bottom Bar */
@@ -71,7 +72,8 @@ h1 {
   right: 0;
   width: 100%;
   height: var(--bottom-bar-height);
-  background-color: var(--main-color);
+  background-color: lightgrey;
+  z-index: 90;
 }
 
 /* Cards */
