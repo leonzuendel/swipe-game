@@ -48,6 +48,8 @@ h1 {
   height: 100%;
   -webkit-overflow-scrolling: touch;
   overflow: auto;
+  z-index: 100;
+  position: relative;
 }
 
 /* Top Bar */
