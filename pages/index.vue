@@ -14,30 +14,30 @@
 </template>
 
 <script>
-import { Vue2InteractDraggable } from 'vue2-interact'
+import { Vue2InteractDraggable } from "vue2-interact";
 
 export default {
   components: {
     Vue2InteractDraggable
   },
   data() {
-    return {}
+    return {};
   },
   methods: {
     draggedUp() {
-      console.log('Up!')
+      console.log("Up!");
     },
     draggedDown() {
-      console.log('Down!')
+      console.log("Down!");
     },
     draggedLeft() {
-      console.log('Left!')
+      console.log("Left!");
     },
     draggedRight() {
-      console.log('Right!')
+      console.log("Right!");
     }
   }
-}
+};
 </script>
 
 <style></style>

@@ -1,48 +1,53 @@
 export default {
-  mode: 'universal',
+  mode: "universal",
   /*
    ** Headers of the page
    */
   head: {
-    title: process.env.npm_package_name || '',
+    title: process.env.npm_package_name || "",
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { name: 'apple-mobile-web-app-capable', content: 'yes' },
+      { charset: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
       {
-        name: 'apple-mobile-web-app-status-bar-style',
-        content: 'black-translucent'
+        name: "apple-mobile-web-app-status-bar-style",
+        content: "black-translucent"
       },
 
       {
-        hid: 'description',
-        name: 'description',
-        content: process.env.npm_package_description || ''
+        hid: "description",
+        name: "description",
+        content: process.env.npm_package_description || ""
+      }
+    ],
+    script: [
+      {
+        src: "/js/inobounce.min.js"
       }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
+      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
       {
-        rel: 'stylesheet',
+        rel: "stylesheet",
         href:
-          'https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;500;700&display=swap'
+          "https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;500;700&display=swap"
       },
       {
-        rel: 'stylesheet',
+        rel: "stylesheet",
         href:
-          'https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css'
+          "https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css"
       }
     ]
   },
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: '#fff' },
+  loading: { color: "#fff" },
   /*
    ** Global CSS
    */
-  css: ['@/assets/css/main.css', '@/assets/css/normalize.css'],
+  css: ["@/assets/css/main.css", "@/assets/css/normalize.css"],
   /*
    ** Plugins to load before mounting the App
    */
@@ -52,15 +57,15 @@ export default {
    */
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/eslint-module'
+    "@nuxtjs/eslint-module"
   ],
   /*
    ** Nuxt.js modules
    */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
-    '@nuxtjs/pwa'
+    "@nuxtjs/axios",
+    "@nuxtjs/pwa"
   ],
   /*
    ** Axios module configuration
@@ -76,4 +81,4 @@ export default {
      */
     extend(config, ctx) {}
   }
-}
+};
