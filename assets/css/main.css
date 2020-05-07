@@ -2,6 +2,7 @@
 
 :root {
   --main-color: #e3e3e3;
+  --site-padding: 25px;
 }
 
 /* Main */
@@ -21,19 +22,63 @@ html {
   overflow: hidden;
 }
 
-#content {
-  height: 100%;
-  width: 100%;
+body {
+  font-size: 14px;
+  font-family: "Muli", sans-serif;
+}
+
+h1 {
+  font-size: 2em;
+  font-weight: 700;
+}
+
+#container {
+  height: 100vh;
+  width: 100vw;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
+  max-width: 420px;
+  margin: auto;
+}
+
+#content > * {
 }
 
 /* Cards */
 
+.card-container {
+  height: 100%;
+  overflow: visible;
+  padding-left: var(--site-padding);
+  padding-right: var(--site-padding);
+}
+
 .card {
-  height: 500px;
-  width: 350px;
+  height: 62vh;
+  max-height: 460px;
+  width: 100%;
   border-radius: 15px;
   background-color: var(--main-color);
   margin: 20vh auto;
+  z-index: 100;
+}
+
+.card-content {
+  display: grid;
+  grid-template-areas:
+    "card-symbols card-title card-title"
+    "card-symbols . ."
+    "card-symbols . .";
+  grid-gap: 10px;
+  padding: 15px;
+}
+
+.card-content .card-symbols {
+  text-align: left;
+  grid-area: card-symbols;
+}
+
+.card-content .card-title {
+  text-align: right;
+  grid-area: card-title;
 }

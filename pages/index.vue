@@ -1,42 +1,23 @@
 <template>
-  <Vue2InteractDraggable
-    :interact-max-rotation="20"
-    :interact-out-of-sight-x-coordinate="600"
-    :interact-x-threshold="130"
-    class="card"
-    @draggedRight="draggedRight"
-    @draggedLeft="draggedLeft"
-    @draggedUp="draggedUp"
-    @draggedDown="draggedDown"
-  >
-    <div></div>
-  </Vue2InteractDraggable>
+  <div id="content">
+    <cardView :card="testCard" />
+  </div>
 </template>
 
 <script>
-import { Vue2InteractDraggable } from "vue2-interact";
-
+import cardView from "@/layouts/partials/cardView.vue";
 export default {
   components: {
-    Vue2InteractDraggable
+    cardView
   },
   data() {
-    return {};
+    return {
+      testCard: {
+        title: "Test Card"
+      }
+    };
   },
-  methods: {
-    draggedUp() {
-      console.log("Up!");
-    },
-    draggedDown() {
-      console.log("Down!");
-    },
-    draggedLeft() {
-      console.log("Left!");
-    },
-    draggedRight() {
-      console.log("Right!");
-    }
-  }
+  methods: {}
 };
 </script>
 

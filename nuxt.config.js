@@ -31,7 +31,7 @@ export default {
       {
         rel: "stylesheet",
         href:
-          "https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;500;700&display=swap"
+          "https://fonts.googleapis.com/css2?family=Muli:ital,wght@0,300;0,500;0,700;1,300;1,500;1,700&display=swap"
       },
       {
         rel: "stylesheet",
