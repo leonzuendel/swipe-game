@@ -1,7 +1,12 @@
 <template>
   <div id="container">
     <topBar />
-    <nuxt />
+    <template v-if="online">
+      <nuxt />
+    </template>
+    <template v-else>
+      <div>Bitte stelle eine Internetverbindung her</div>
+    </template>
     <bottomBar />
   </div>
 </template>
@@ -16,6 +21,15 @@ export default {
   },
   data() {
     return {};
+  },
+  computed: {
+    online() {
+      if (process.client) {
+        return navigator.onLine;
+      } else {
+        return false;
+      }
+    }
   },
   methods: {}
 };
