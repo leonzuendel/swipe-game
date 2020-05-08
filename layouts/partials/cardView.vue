@@ -3,6 +3,7 @@
     <template v-if="allCardsGone === false">
       <Vue2InteractDraggable
         v-for="(card, index) in currentCards"
+        v-show="!loading"
         :key="card.title"
         :interact-max-rotation="20"
         :interact-out-of-sight-x-coordinate="600"
@@ -14,18 +15,18 @@
         @draggedUp="draggedUp()"
         @draggedDown="draggedDown()"
       >
-        <div v-show="!loading" class="card-content">
+        <div class="card-content">
           <div class="card-symbols"></div>
           <div class="card-title">
             <h1>{{ card.title }}</h1>
             <span>{{ category(card.category) }}</span>
           </div>
         </div>
-        <div v-show="loading" class="card-loading">
-          <div>Lädt...</div>
-        </div>
       </Vue2InteractDraggable>
     </template>
+    <div v-show="loading" class="card-loading">
+      <div>Lädt...</div>
+    </div>
     <template v-if="noCardLeft">
       <div class="all-cards-gone">Es gibt keine Karten mehr...</div>
     </template>
