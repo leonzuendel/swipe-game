@@ -15,11 +15,7 @@ export default {
     bottomBar
   },
   data() {
-    return {
-      testCard: {
-        title: "Test Card"
-      }
-    };
+    return {};
   },
   methods: {}
 };

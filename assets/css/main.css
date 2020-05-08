@@ -25,7 +25,7 @@ html {
 }
 
 body {
-  font-size: 14px;
+  font-size: 16px;
   font-family: "Muli", sans-serif;
 }
 
@@ -80,7 +80,7 @@ h1 {
 
 /* Cards */
 
-.card-container {
+#card-container {
   height: 100%;
   overflow: visible;
   padding-left: var(--site-padding);
@@ -120,4 +120,10 @@ h1 {
 .card-content .card-title {
   text-align: right;
   grid-area: card-title;
+}
+
+.card.next {
+  z-index: 90;
+  position: absolute;
+  width: calc(100% - (var(--site-padding) * 2));
 }

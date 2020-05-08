@@ -2,20 +2,20 @@
 import client from "@/client";
 
 export const state = () => ({
-  test: {}
+  loading: true,
+  cards: []
 });
 
 export const actions = {
-  async getProjects({ commit }) {
-    state.loading = true;
-    const request = await client.getItems("projekte");
-    commit("SET_PROJECTS", request.data);
+  async getCards({ commit }) {
+    const request = await client.getItems("cards");
+    commit("SET_CARDS", request.data);
   }
 };
 
 export const mutations = {
-  SET_PROJECTS(state, payload) {
-    state.projects = payload;
+  SET_CARDS(state, payload) {
+    state.cards = payload;
     state.loading = false;
   }
 };
