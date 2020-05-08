@@ -10,6 +10,7 @@
         :interact-x-threshold="130"
         :class="{ next: index === 0 && currentCards.length != 1 }"
         class="card"
+        :style="catColor(card.category)"
         @draggedRight="draggedRight()"
         @draggedLeft="draggedLeft()"
         @draggedUp="draggedUp()"
@@ -102,6 +103,13 @@ export default {
       if (cat != null) {
         this.loading = false;
         return cat.icon;
+      }
+    },
+    catColor(id) {
+      const cat = this.categories.filter((cat) => cat.id === id)[0];
+      if (cat != null) {
+        this.loading = false;
+        return { "background-color": cat.color };
       }
     },
     draggedUp(index) {

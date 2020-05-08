@@ -103,6 +103,7 @@ h1 {
   width: 100%;
   border-radius: 15px;
   background-color: var(--main-color);
+  color: white;
   z-index: 100;
   transform: scale(1);
 }
@@ -120,6 +121,8 @@ h1 {
 .card-content .card-symbols {
   text-align: left;
   grid-area: card-symbols;
+  font-weight: 700;
+  font-size: 1.6em;
 }
 
 .card-content .card-title {
