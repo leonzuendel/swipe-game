@@ -91,11 +91,13 @@ export default {
       this.removeCard(index);
     },
     removeCard(index) {
-      this.currentCards.splice(1, 1);
-      this.$parent.loadNextCards();
-      if (this.oneCardLeft !== true) {
-        this.currentCards.push(this.nextCard);
-      }
+      setTimeout(() => {
+        this.currentCards.splice(1, 1);
+        this.$parent.loadNextCards();
+        if (this.oneCardLeft !== true) {
+          this.currentCards.push(this.nextCard);
+        }
+      }, 200);
     }
   }
 };
