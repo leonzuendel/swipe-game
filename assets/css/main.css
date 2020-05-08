@@ -63,6 +63,8 @@ h1 {
   height: var(--top-bar-height);
   background-color: lightgrey;
   z-index: 90;
+  max-width: 420px;
+  margin: auto;
 }
 
 /* Bottom Bar */
@@ -76,6 +78,8 @@ h1 {
   height: var(--bottom-bar-height);
   background-color: lightgrey;
   z-index: 90;
+  max-width: 420px;
+  margin: auto;
 }
 
 /* Cards */
