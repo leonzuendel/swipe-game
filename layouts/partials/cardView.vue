@@ -14,12 +14,15 @@
         @draggedUp="draggedUp()"
         @draggedDown="draggedDown()"
       >
-        <div class="card-content">
+        <div v-show="!loading" class="card-content">
           <div class="card-symbols"></div>
           <div class="card-title">
             <h1>{{ card.title }}</h1>
-            <span>{{ card.category }}</span>
+            <span>{{ category(card.category) }}</span>
           </div>
+        </div>
+        <div v-show="loading" class="card-loading">
+          <div>Lädt...</div>
         </div>
       </Vue2InteractDraggable>
     </template>
@@ -30,8 +33,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { Vue2InteractDraggable } from "vue2-interact";
-
 export default {
   components: {
     Vue2InteractDraggable
@@ -62,9 +65,13 @@ export default {
     }
   },
   data() {
-    return {};
+    return {
+      loading: true
+    };
   },
+
   computed: {
+    ...mapState(["cards", "categories"]),
     currentCards() {
       if (this.noCardLeft !== true) {
         return [this.nextCard, this.currentCard];
@@ -73,7 +80,17 @@ export default {
       }
     }
   },
+  mounted() {
+    this.$store.dispatch("getCategories");
+  },
   methods: {
+    category(id) {
+      const cat = this.categories.filter((cat) => cat.id === id)[0];
+      if (cat != null) {
+        this.loading = false;
+        return cat.title;
+      }
+    },
     draggedUp(index) {
       console.log(index);
       this.removeCard(index);

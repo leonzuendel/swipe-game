@@ -145,3 +145,10 @@ h1 {
   padding-top: calc(var(--top-bar-height) + 15px);
   padding-bottom: calc(var(--bottom-bar-height) + 15px);
 }
+
+.card-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
