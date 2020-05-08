@@ -18,6 +18,7 @@
           <div class="card-symbols"></div>
           <div class="card-title">
             <h1>{{ card.title }}</h1>
+            <span>{{ card.category }}</span>
           </div>
         </div>
       </Vue2InteractDraggable>
