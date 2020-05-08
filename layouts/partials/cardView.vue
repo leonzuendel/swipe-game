@@ -16,10 +16,15 @@
         @draggedDown="draggedDown()"
       >
         <div class="card-content">
-          <div class="card-symbols"></div>
+          <div class="card-symbols">
+            {{ card.cost_gold }}
+          </div>
           <div class="card-title">
             <h1>{{ card.title }}</h1>
-            <span>{{ category(card.category) }}</span>
+            <span>
+              <i :class="catIcon(card.category)"></i>
+              {{ catName(card.category) }}
+            </span>
           </div>
         </div>
       </Vue2InteractDraggable>
@@ -85,11 +90,18 @@ export default {
     this.$store.dispatch("getCategories");
   },
   methods: {
-    category(id) {
+    catName(id) {
       const cat = this.categories.filter((cat) => cat.id === id)[0];
       if (cat != null) {
         this.loading = false;
         return cat.title;
+      }
+    },
+    catIcon(id) {
+      const cat = this.categories.filter((cat) => cat.id === id)[0];
+      if (cat != null) {
+        this.loading = false;
+        return cat.icon;
       }
     },
     draggedUp(index) {
