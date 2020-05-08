@@ -100,6 +100,7 @@ h1 {
   border-radius: 15px;
   background-color: var(--main-color);
   z-index: 100;
+  transform: scale(1);
 }
 
 .card-content {
@@ -126,4 +127,17 @@ h1 {
   z-index: 90;
   position: absolute;
   width: calc(100% - (var(--site-padding) * 2));
+  transform: scale(0.97);
+}
+
+.card.scale {
+  transform: scale(1);
+}
+
+.all-cards-gone {
+  position: absolute;
+  padding-left: var(--site-padding);
+  padding-right: var(--site-padding);
+  padding-top: calc(var(--top-bar-height) + 15px);
+  padding-bottom: calc(var(--bottom-bar-height) + 15px);
 }

@@ -7,7 +7,7 @@
         :interact-max-rotation="20"
         :interact-out-of-sight-x-coordinate="600"
         :interact-x-threshold="130"
-        :class="{ next: index === 0 }"
+        :class="{ next: index === 0 && currentCards.length != 1 }"
         class="card"
         @draggedRight="draggedRight()"
         @draggedLeft="draggedLeft()"
@@ -91,8 +91,10 @@ export default {
       this.removeCard(index);
     },
     removeCard(index) {
+      const next = document.getElementsByClassName("card")[0];
+      next.classList.add("scale");
+      this.currentCards.splice(1);
       setTimeout(() => {
-        this.currentCards.splice(1, 1);
         this.$parent.loadNextCards();
         if (this.oneCardLeft !== true) {
           this.currentCards.push(this.nextCard);
