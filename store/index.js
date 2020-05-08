@@ -4,7 +4,8 @@ import client from "@/client";
 export const state = () => ({
   loading: true,
   cards: [],
-  categories: []
+  categories: [],
+  resources: []
 });
 
 export const actions = {
@@ -16,6 +17,10 @@ export const actions = {
   async getCategories({ commit }) {
     const request = await client.getItems("categories");
     commit("SET_CATEGORIES", request.data);
+  },
+  async getResources({ commit }) {
+    const request = await client.getItems("resources");
+    commit("SET_RESOURCES", request.data);
   }
 };
 
@@ -26,5 +31,8 @@ export const mutations = {
   },
   SET_CATEGORIES(state, payload) {
     state.categories = payload;
+  },
+  SET_RESOURCES(state, payload) {
+    state.resources = payload;
   }
 };

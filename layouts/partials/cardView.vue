@@ -10,7 +10,7 @@
         :interact-x-threshold="130"
         :class="{ next: index === 0 && currentCards.length != 1 }"
         class="card"
-        :style="catColor(card.category)"
+        :style="categoryColor(card.category)"
         @draggedRight="draggedRight()"
         @draggedLeft="draggedLeft()"
         @draggedUp="draggedUp()"
@@ -18,13 +18,22 @@
       >
         <div class="card-content">
           <div class="card-symbols">
-            {{ card.cost_gold }}
+            <h1><i class="las la-coins"></i> {{ card.cost_gold }}</h1>
+            <div
+              v-for="entry in resourcesCosts(card.cost_resources)"
+              :key="entry.res"
+              class="resource-costs"
+            >
+              <template v-if="resource(entry.res) != null">
+                <i :class="resource(entry.res).icon"></i> {{ entry.cost }}
+              </template>
+            </div>
           </div>
           <div class="card-title">
             <h1>{{ card.title }}</h1>
-            <span>
-              <i :class="catIcon(card.category)"></i>
-              {{ catName(card.category) }}
+            <span v-if="category(card.category) != null">
+              <i :class="category(card.category).icon"></i>
+              {{ category(card.category).title }}
             </span>
           </div>
         </div>
@@ -40,13 +49,20 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
 import { Vue2InteractDraggable } from "vue2-interact";
 export default {
   components: {
     Vue2InteractDraggable
   },
   props: {
+    categories: {
+      type: Array,
+      required: true
+    },
+    resources: {
+      type: Array,
+      required: true
+    },
     currentCard: {
       type: Object,
       required: true
@@ -78,7 +94,6 @@ export default {
   },
 
   computed: {
-    ...mapState(["cards", "categories"]),
     currentCards() {
       if (this.noCardLeft !== true) {
         return [this.nextCard, this.currentCard];
@@ -87,25 +102,30 @@ export default {
       }
     }
   },
-  mounted() {
-    this.$store.dispatch("getCategories");
-  },
+  mounted() {},
   methods: {
-    catName(id) {
+    category(id) {
       const cat = this.categories.filter((cat) => cat.id === id)[0];
       if (cat != null) {
         this.loading = false;
-        return cat.title;
+        return cat;
       }
     },
-    catIcon(id) {
-      const cat = this.categories.filter((cat) => cat.id === id)[0];
-      if (cat != null) {
+    resourcesCosts(res) {
+      const output = Object.entries(res).map(([res, cost]) => ({
+        res,
+        cost
+      }));
+      return output;
+    },
+    resource(id) {
+      const res = this.resources.filter((res) => res.id === parseInt(id))[0];
+      if (res != null) {
         this.loading = false;
-        return cat.icon;
+        return res;
       }
     },
-    catColor(id) {
+    categoryColor(id) {
       const cat = this.categories.filter((cat) => cat.id === id)[0];
       if (cat != null) {
         this.loading = false;

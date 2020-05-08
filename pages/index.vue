@@ -2,6 +2,8 @@
   <div id="content">
     <template v-if="this.$store.state.loading !== true">
       <cardView
+        :categories="categories"
+        :resources="resources"
         :current-card="currentCard"
         :next-card="nextCard"
         :all-cards-gone="allCardsGone"
@@ -25,7 +27,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["cards"]),
+    ...mapState(["cards", "categories", "resources"]),
     oneCardLeft() {
       if (this.currentCardCount + 2 === this.cards.length) {
         return true;
@@ -56,6 +58,8 @@ export default {
   },
   mounted() {
     this.$store.dispatch("getCards");
+    this.$store.dispatch("getCategories");
+    this.$store.dispatch("getResources");
   },
   methods: {
     loadNextCards() {
