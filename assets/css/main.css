@@ -85,7 +85,7 @@ h1 {
 /* Cards */
 
 #card-container {
-  height: 100vh;
+  height: 100vh !important;
   overflow: visible;
   padding-left: var(--site-padding);
   padding-right: var(--site-padding);
