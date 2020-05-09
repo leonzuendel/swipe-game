@@ -4,6 +4,9 @@
       <button class="log-in-button" @click="loginWithGoogle">
         Mit Google anmelden
       </button>
+      <button class="log-in-button" @click="loginWithFacebook">
+        Mit Facebook anmelden
+      </button>
       <!--<button class="button" @click="login">Anmelden</button>-->
       <button class="log-out-button" @click="logout">Abmelden</button>
 
@@ -66,6 +69,26 @@ export default {
       let errored = false;
       let loggedUser = null;
       const provider = new this.$fireAuthObj.GoogleAuthProvider();
+      await this.$fireAuth
+        .signInWithPopup(provider)
+        .then(function(result) {
+          // The signed-in user info.
+          loggedUser = result.user;
+          // ...
+        })
+        .catch(function(err) {
+          errored = true;
+          alert(err.message);
+        });
+      if (errored !== true) {
+        this.$store.dispatch("logInUser", loggedUser);
+        this.$router.push("/");
+      }
+    },
+    async loginWithFacebook() {
+      let errored = false;
+      let loggedUser = null;
+      const provider = new this.$fireAuthObj.FacebookAuthProvider();
       await this.$fireAuth
         .signInWithPopup(provider)
         .then(function(result) {
