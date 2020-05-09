@@ -2,6 +2,7 @@
 
 :root {
   --main-color: #e3e3e3;
+  --bg-color: white;
   --site-padding: 25px;
   --top-bar-height: 15vh;
   --bottom-bar-height: 15vh;
@@ -54,6 +55,7 @@ h1 {
   overflow: auto;
   z-index: 100;
   position: relative;
+  pointer-events: none;
 }
 
 /* Top Bar */
@@ -69,6 +71,8 @@ h1 {
   z-index: 90;
   max-width: 420px;
   margin: auto;
+  text-align: center;
+  padding: 20px;
 }
 
 /* Bottom Bar */
@@ -100,6 +104,7 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: var(--bg-color);
 }
 
 #login .login-form {
@@ -147,6 +152,7 @@ button:hover {
   color: white;
   z-index: 100;
   transform: scale(1);
+  pointer-events: auto;
 }
 
 .card-content {

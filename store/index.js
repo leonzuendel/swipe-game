@@ -28,6 +28,13 @@ export const actions = {
   },
   logOutUser({ commit }, user) {
     commit("SET_USER", null);
+  },
+  nuxtServerInit({ commit }, { req }) {
+    if (req.userData) {
+      // We have all the needed user details. Lets push it to Vuex
+      commit("SET_USER", req.userData);
+      // and so on.....
+    }
   }
 };
 
@@ -51,6 +58,16 @@ export const getters = {
   userId: (state) => {
     if (state.user != null) {
       return state.user.uid;
+    }
+  },
+  userName: (state) => {
+    if (state.user != null) {
+      return state.user.displayName;
+    }
+  },
+  userEmail: (state) => {
+    if (state.user != null) {
+      return state.user.email;
     }
   },
   loggedIn: (state) => {

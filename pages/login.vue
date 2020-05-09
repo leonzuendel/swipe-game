@@ -8,7 +8,6 @@
         Mit Facebook anmelden
       </button>
       <!--<button class="button" @click="login">Anmelden</button>-->
-      <button class="log-out-button" @click="logout">Abmelden</button>
 
       <p>{{ userId }}</p>
     </div>

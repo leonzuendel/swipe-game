@@ -56,7 +56,9 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: [{ src: "~/plugins/auth-cookie", mode: "client" }],
+
+  serverMiddleware: ["~/serverMiddleware/validateFirebaseIdToken"],
   /*
    ** Nuxt.js dev-modules
    */
@@ -102,7 +104,7 @@ export default {
             },
             ssr: {
               // !! NEVER deploy a service account file to github or to a publicly accessible folder on your server !!
-              credential: "~/assets/firebase/serviceAccount.json",
+              credential: "~/node_modules/serviceAccounts.json",
               // Experimental Feature, use with caution.
               serverLogin: {
                 sessionLifetime: 60 * 60 * 1000, // one hour
@@ -112,12 +114,11 @@ export default {
           },
           firestore: false,
           functions: {
-            location: "us-central1", // Default
-            emulatorPort: 12345
+            location: "us-central1" // Default
           },
-          storage: true,
+          storage: false,
           realtimeDb: true,
-          performance: true,
+          performance: false,
           analytics: false,
           remoteConfig: {
             settings: {
@@ -137,7 +138,6 @@ export default {
     "@nuxtjs/axios",
     "@nuxtjs/pwa"
   ],
-
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options

@@ -31,8 +31,10 @@ export default {
       }
     }
   },
-  created() {
-    if (this.$store.state.loggedIn !== true) {
+  async created() {
+    await this.$store.dispatch("logInUser", this.$fireAuth.currentUser);
+    const loggedIn = await this.$store.getters.loggedIn;
+    if (loggedIn !== true) {
       this.$router.push("/login");
     }
   },
