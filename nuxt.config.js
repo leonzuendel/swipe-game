@@ -68,10 +68,76 @@ export default {
    ** Nuxt.js modules
    */
   modules: [
-    // Doc: https://axios.nuxtjs.org/usage
+    [
+      "@nuxtjs/firebase",
+      {
+        config: {
+          production: {
+            apiKey: "AIzaSyDlEy0WvIlAaRv1tf15w0dp9qdRZFvzZA0",
+            authDomain: "leonzuendel-swipe-game.firebaseapp.com",
+            databaseURL: "https://leonzuendel-swipe-game.firebaseio.com",
+            projectId: "leonzuendel-swipe-game",
+            storageBucket: "leonzuendel-swipe-game.appspot.com",
+            messagingSenderId: "489772235999",
+            appId: "1:489772235999:web:32a46e71d0a7b758e43d6a"
+          },
+          development: {
+            apiKey: "AIzaSyDlEy0WvIlAaRv1tf15w0dp9qdRZFvzZA0",
+            authDomain: "leonzuendel-swipe-game.firebaseapp.com",
+            databaseURL: "https://leonzuendel-swipe-game.firebaseio.com",
+            projectId: "leonzuendel-swipe-game",
+            storageBucket: "leonzuendel-swipe-game.appspot.com",
+            messagingSenderId: "489772235999",
+            appId: "1:489772235999:web:32a46e71d0a7b758e43d6a"
+          }
+        },
+        customEnv: false,
+        onFirebaseHosting: false,
+        services: {
+          auth: {
+            persistence: "local",
+            initialize: {
+              onAuthStateChangedMutation: null,
+              onAuthStateChangedAction: null
+            },
+            ssr: {
+              // !! NEVER deploy a service account file to github or to a publicly accessible folder on your server !!
+              credential: "~/assets/firebase/serviceAccount.json",
+              // Experimental Feature, use with caution.
+              serverLogin: {
+                sessionLifetime: 60 * 60 * 1000, // one hour
+                loginDelay: 50 // minimal recommended delay
+              }
+            }
+          },
+          firestore: false,
+          functions: {
+            location: "us-central1", // Default
+            emulatorPort: 12345
+          },
+          storage: true,
+          realtimeDb: true,
+          performance: true,
+          analytics: false,
+          remoteConfig: {
+            settings: {
+              fetchTimeoutMillis: 60000, // Default
+              minimumFetchIntervalMillis: 43200000 // Default
+            },
+            defaultConfig: {
+              welcome_message: "Welcome"
+            }
+          },
+          messaging: {
+            createServiceWorker: true
+          }
+        }
+      }
+    ],
     "@nuxtjs/axios",
     "@nuxtjs/pwa"
   ],
+
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options

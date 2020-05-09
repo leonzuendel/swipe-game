@@ -31,6 +31,11 @@ export default {
       }
     }
   },
+  created() {
+    if (this.$store.state.loggedIn !== true) {
+      this.$router.push("/login");
+    }
+  },
   methods: {}
 };
 </script>

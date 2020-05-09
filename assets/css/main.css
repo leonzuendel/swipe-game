@@ -24,6 +24,10 @@ html {
   overflow: hidden;
 }
 
+*:focus {
+  outline: -webkit-focus-ring-color none;
+}
+
 body {
   font-size: 16px;
   font-family: "Muli", sans-serif;
@@ -80,6 +84,43 @@ h1 {
   z-index: 90;
   max-width: 420px;
   margin: auto;
+}
+
+/* Login */
+
+#login {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#login .login-form {
+  padding: 40px;
+}
+
+button {
+  display: block;
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 8px 14px 8px 14px;
+  border: none;
+  background-color: var(--main-color);
+  transform: scale(1);
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+button:hover {
+  transform: scale(0.98);
+  filter: brightness(0.98);
 }
 
 /* Cards */
