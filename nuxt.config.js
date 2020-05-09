@@ -104,7 +104,7 @@ export default {
             },
             ssr: {
               // !! NEVER deploy a service account file to github or to a publicly accessible folder on your server !!
-              credential: "~/node_modules/serviceAccounts.json",
+              credential: "~/serviceAccounts.json",
               // Experimental Feature, use with caution.
               serverLogin: {
                 sessionLifetime: 60 * 60 * 1000, // one hour
