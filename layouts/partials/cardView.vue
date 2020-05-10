@@ -98,7 +98,7 @@ export default {
   async mounted() {
     await setTimeout(() => {
       this.currentCards.push(this.currentCard);
-    }, 100);
+    }, 200);
     await this.currentCards.push(this.nextCard);
   },
   methods: {

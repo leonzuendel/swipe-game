@@ -33,6 +33,7 @@ export default {
   },
   async created() {
     await this.$store.dispatch("logInUser", this.$fireAuth.currentUser);
+    await this.$store.dispatch("loadData");
     const loggedIn = await this.$store.getters.loggedIn;
     if (loggedIn !== true) {
       this.$router.push("/login");

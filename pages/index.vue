@@ -68,12 +68,26 @@ export default {
     await this.$store.dispatch("getCards");
     await this.$store.dispatch("getCategories");
     await this.$store.dispatch("getResources");
-    this.loadNewDeck();
+    if (Object.keys(this.$store.state.deck).length !== 0) {
+      const deckArray = await this.$store.state.deck;
+      const deck = [];
+      await deckArray.forEach((id) => {
+        const card = this.cards.filter((card) => card.id === id)[0];
+        deck.push(card);
+      });
+      this.deck = await deck;
+      this.loading = false;
+    } else {
+      this.loadNewDeck();
+    }
+    this.currentCardCount = this.$store.state.currentCardCount;
   },
   methods: {
     loadNextCards() {
       this.deckLength--;
       this.currentCardCount++;
+      this.$store.dispatch("saveCurrentCardCount", this.currentCardCount);
+      this.$store.dispatch("saveCurrentDeckLength", this.deckLength);
       if (this.currentCardCount + 1 > this.deckLength) {
         this.loadNewDeck();
       }
@@ -131,6 +145,8 @@ export default {
       this.deckLength = array.length;
       this.currentCardCount = 0;
       this.loading = false;
+
+      this.$store.dispatch("saveCurrentDeck", this.deck);
     }
   }
 };
