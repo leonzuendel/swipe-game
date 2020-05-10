@@ -1,6 +1,6 @@
 <template>
   <div id="card-container">
-    <template v-if="allCardsGone === false">
+    <template v-if="allCardsGone === false && cardsAreReady === true">
       <Vue2InteractDraggable
         v-for="(card, index) in currentCards"
         v-show="!loading"
@@ -24,7 +24,9 @@
               :key="entry.res"
               class="resource-costs"
             >
-              <template v-if="resource(entry.res) != null">
+              <template
+                v-if="resource(entry.res) != null && cardsAreReady === true"
+              >
                 <i :class="resource(entry.res).icon"></i> {{ entry.cost }}
               </template>
             </div>
@@ -55,6 +57,10 @@ export default {
     Vue2InteractDraggable
   },
   props: {
+    cardsAreReady: {
+      type: Boolean,
+      required: true
+    },
     categories: {
       type: Array,
       required: true
@@ -97,9 +103,12 @@ export default {
   computed: {},
   async mounted() {
     await setTimeout(() => {
+      this.currentCards.push(this.nextCard);
+    }, 100);
+    await setTimeout(() => {
       this.currentCards.push(this.currentCard);
-    }, 200);
-    await this.currentCards.push(this.nextCard);
+    }, 101);
+    this.loading = false;
   },
   methods: {
     category(id) {

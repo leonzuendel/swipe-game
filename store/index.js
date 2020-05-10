@@ -38,7 +38,12 @@ export const actions = {
     const currentCardCount = state.currentCardCount;
     const deck = state.deck;
     const deckLength = state.deckLength;
-    await dispatch("saveDeck", { userId, currentCardCount, deck, deckLength });
+    await dispatch("saveDeck", {
+      userId,
+      currentCardCount,
+      deck,
+      deckLength
+    });
 
     await this.$fireAuth.signOut().then(
       function() {},
@@ -48,6 +53,19 @@ export const actions = {
     );
 
     commit("SET_USER", null);
+  },
+
+  async quickSave({ commit, dispatch, state, getters }) {
+    const userId = getters.userId;
+    const currentCardCount = state.currentCardCount;
+    const deck = state.deck;
+    const deckLength = state.deckLength;
+    await dispatch("saveDeck", {
+      userId,
+      currentCardCount,
+      deck,
+      deckLength
+    });
   },
 
   async saveDeck({ commit }, data) {
@@ -81,9 +99,9 @@ export const actions = {
 
     commit("SET_CURRENT_DECK", currentDeckArray);
 
-    commit("SET_CURRENT_DECK_LENGTH", deck.currentDeckLength);
+    commit("SET_CURRENT_DECK_LENGTH", parseInt(deck.currentDeckLength));
 
-    commit("SET_CURRENT_CARD_COUNT", deck.currentCardCount);
+    commit("SET_CURRENT_CARD_COUNT", parseInt(deck.currentCardCount));
   },
 
   nuxtServerInit({ commit }, { req }) {

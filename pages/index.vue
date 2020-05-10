@@ -2,6 +2,7 @@
   <div id="content">
     <template v-if="loading !== true">
       <cardView
+        :cards-are-ready="cardsAreReady"
         :categories="categories"
         :resources="resources"
         :current-card="currentCard"
@@ -26,7 +27,8 @@ export default {
       currentCardCount: 0,
       deck: [],
       loading: true,
-      deckLength: 0
+      deckLength: 0,
+      cardsAreReady: false
     };
   },
   computed: {
@@ -68,6 +70,7 @@ export default {
     await this.$store.dispatch("getCards");
     await this.$store.dispatch("getCategories");
     await this.$store.dispatch("getResources");
+    await this.$store.dispatch("loadDeck");
     if (Object.keys(this.$store.state.deck).length !== 0) {
       const deckArray = await this.$store.state.deck;
       const deck = [];
@@ -76,19 +79,36 @@ export default {
         deck.push(card);
       });
       this.deck = await deck;
+      this.deckLength = await this.deck.length;
       this.loading = false;
+      await setTimeout(() => {
+        this.cardsAreReady = true;
+      }, 100);
     } else {
-      this.loadNewDeck();
+      await this.loadNewDeck();
+      await setTimeout(() => {
+        this.cardsAreReady = true;
+      }, 100);
     }
     this.currentCardCount = this.$store.state.currentCardCount;
+    window.setInterval(() => {
+      this.$store.dispatch("quickSave");
+      console.log("quick save");
+    }, 10000);
+  },
+  async beforeDestroy() {
+    this.$store.dispatch("saveCurrentCardCount", this.currentCardCount);
+    this.$store.dispatch("saveCurrentDeckLength", this.deckLength);
+    await this.$store.dispatch("logOutUser");
+    this.$router.push("/login");
   },
   methods: {
-    loadNextCards() {
-      this.deckLength--;
-      this.currentCardCount++;
+    async loadNextCards() {
+      await this.deckLength--;
+      await this.currentCardCount++;
       this.$store.dispatch("saveCurrentCardCount", this.currentCardCount);
       this.$store.dispatch("saveCurrentDeckLength", this.deckLength);
-      if (this.currentCardCount + 1 > this.deckLength) {
+      if (this.deckLength < 9) {
         this.loadNewDeck();
       }
     },

@@ -31,7 +31,7 @@ export default {
       }
     }
   },
-  async created() {
+  async beforeMount() {
     await this.$store.dispatch("logInUser", this.$fireAuth.currentUser);
     await this.$store.dispatch("loadData");
     const loggedIn = await this.$store.getters.loggedIn;
