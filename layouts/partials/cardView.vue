@@ -8,6 +8,8 @@
         :interact-max-rotation="20"
         :interact-out-of-sight-x-coordinate="600"
         :interact-x-threshold="130"
+        :interact-lock-x-axis="lockCard(index)"
+        :interact-lock-y-axis="lockCard(index)"
         :class="{ next: index === 0 && currentCards.length != 1 }"
         class="card"
         :style="categoryColor(card.category)"
@@ -96,7 +98,9 @@ export default {
   data() {
     return {
       loading: true,
-      currentCards: []
+      currentCards: [],
+      lock1: false,
+      lock0: true
     };
   },
 
@@ -174,6 +178,13 @@ export default {
         this.$store.dispatch("quickSave");
         console.log("quick save");
       }, 85);
+    },
+    lockCard(index) {
+      if (index === 0) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 };
