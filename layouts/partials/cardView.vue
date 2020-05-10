@@ -169,6 +169,11 @@ export default {
       await setTimeout(() => {
         this.currentCards.unshift(this.nextCard);
       }, 83);
+
+      await setTimeout(() => {
+        this.$store.dispatch("quickSave");
+        console.log("quick save");
+      }, 85);
     }
   }
 };

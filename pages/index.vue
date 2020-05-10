@@ -91,10 +91,7 @@ export default {
       }, 100);
     }
     this.currentCardCount = this.$store.state.currentCardCount;
-    window.setInterval(() => {
-      this.$store.dispatch("quickSave");
-      console.log("quick save");
-    }, 10000);
+    // window.setInterval(() => {}, 10000);
   },
   async beforeDestroy() {
     this.$store.dispatch("saveCurrentCardCount", this.currentCardCount);
@@ -166,6 +163,7 @@ export default {
       this.currentCardCount = 0;
       this.loading = false;
 
+      this.$store.dispatch("saveCurrentDeckLength", this.deckLength);
       this.$store.dispatch("saveCurrentDeck", this.deck);
     }
   }

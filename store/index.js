@@ -53,6 +53,8 @@ export const actions = {
     );
 
     commit("SET_USER", null);
+
+    console.log("logged out");
   },
 
   async quickSave({ commit, dispatch, state, getters }) {
@@ -69,10 +71,11 @@ export const actions = {
   },
 
   async saveDeck({ commit }, data) {
+    const userId = await data.userId;
     const deck = await Object.assign({}, data.deck);
     const count = await data.currentCardCount.toString();
     const length = await data.deckLength.toString();
-    await this.$fireDb.ref("users/" + data.userId).set({
+    await this.$fireDb.ref("users/" + userId).set({
       deck: {
         currentCardCount: count,
         currentDeck: deck,
@@ -87,21 +90,26 @@ export const actions = {
 
   async loadDeck({ commit, getters }) {
     const userId = await getters.userId;
-    let deck = {};
+    let deck = null;
     await this.$fireDb
       .ref("/users/" + userId)
       .once("value")
       .then(function(snapshot) {
-        deck = snapshot.val().deck;
+        if (snapshot.val() !== null && snapshot.val() !== undefined) {
+          deck = snapshot.val().deck;
+
+          if (deck.currentDeck !== null && deck.currentDeck !== undefined) {
+            const currentDeckArray = Object.values(deck.currentDeck);
+            commit("SET_CURRENT_DECK", currentDeckArray);
+
+            commit("SET_CURRENT_DECK_LENGTH", parseInt(deck.currentDeckLength));
+
+            commit("SET_CURRENT_CARD_COUNT", parseInt(deck.currentCardCount));
+
+            console.log("loaded deck");
+          }
+        }
       });
-
-    const currentDeckArray = Object.values(deck.currentDeck);
-
-    commit("SET_CURRENT_DECK", currentDeckArray);
-
-    commit("SET_CURRENT_DECK_LENGTH", parseInt(deck.currentDeckLength));
-
-    commit("SET_CURRENT_CARD_COUNT", parseInt(deck.currentCardCount));
   },
 
   nuxtServerInit({ commit }, { req }) {
