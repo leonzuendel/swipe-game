@@ -1,6 +1,9 @@
 <template>
   <div id="bottom-bar">
     <Logout />
+    Aktuelle Position im Stapel: {{ this.$store.state.currentCardCount }} von
+    {{ this.$store.state.deckLength }} (Aktuell 25)<br />
+    Aktueller Stapel (ID-Array): {{ this.$store.state.deck }}
   </div>
 </template>
 
