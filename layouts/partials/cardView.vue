@@ -11,10 +11,10 @@
         :class="{ next: index === 0 && currentCards.length != 1 }"
         class="card"
         :style="categoryColor(card.category)"
-        @draggedRight="draggedRight()"
-        @draggedLeft="draggedLeft()"
-        @draggedUp="draggedUp()"
-        @draggedDown="draggedDown()"
+        @draggedRight="draggedRight(index)"
+        @draggedLeft="draggedLeft(index)"
+        @draggedUp="draggedUp(index)"
+        @draggedDown="draggedDown(index)"
       >
         <div class="card-content">
           <div class="card-symbols">
@@ -89,20 +89,18 @@ export default {
   },
   data() {
     return {
-      loading: true
+      loading: true,
+      currentCards: []
     };
   },
 
-  computed: {
-    currentCards() {
-      if (this.noCardLeft !== true) {
-        return [this.nextCard, this.currentCard];
-      } else {
-        return [this.currentCard];
-      }
-    }
+  computed: {},
+  async mounted() {
+    await setTimeout(() => {
+      this.currentCards.push(this.currentCard);
+    }, 100);
+    await this.currentCards.push(this.nextCard);
   },
-  mounted() {},
   methods: {
     category(id) {
       const cat = this.categories.filter((cat) => cat.id === id)[0];
@@ -149,12 +147,19 @@ export default {
       this.removeCard(index);
     },
     async removeCard(index) {
-      await this.currentCards.splice(1, 1);
-      const next = document.getElementsByClassName("card")[0];
+      await setTimeout(() => {
+        this.currentCards.pop();
+      }, 80);
+
+      const next = await document.getElementsByClassName("card")[0];
       next.classList.add("scale");
       await setTimeout(() => {
         this.$parent.loadNextCards();
-      }, 100);
+      }, 81);
+
+      await setTimeout(() => {
+        this.currentCards.unshift(this.nextCard);
+      }, 83);
     }
   }
 };
