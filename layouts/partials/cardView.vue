@@ -4,7 +4,7 @@
       <Vue2InteractDraggable
         v-for="(card, index) in currentCards"
         v-show="!loading"
-        :key="card.title"
+        :key="card.title + index"
         :interact-max-rotation="20"
         :interact-out-of-sight-x-coordinate="600"
         :interact-x-threshold="130"
@@ -148,16 +148,13 @@ export default {
       console.log("Right!");
       this.removeCard(index);
     },
-    removeCard(index) {
+    async removeCard(index) {
+      await this.currentCards.splice(1, 1);
       const next = document.getElementsByClassName("card")[0];
       next.classList.add("scale");
-      this.currentCards.splice(1);
-      setTimeout(() => {
+      await setTimeout(() => {
         this.$parent.loadNextCards();
-        if (this.oneCardLeft !== true) {
-          this.currentCards.push(this.nextCard);
-        }
-      }, 200);
+      }, 100);
     }
   }
 };

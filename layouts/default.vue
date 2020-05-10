@@ -1,10 +1,10 @@
 <template>
   <div id="container">
     <topBar />
-    <template v-if="online">
-      <nuxt />
-    </template>
-    <template v-else>
+
+    <nuxt />
+
+    <template v-if="!online">
       <div>Bitte stelle eine Internetverbindung her</div>
     </template>
     <bottomBar />
