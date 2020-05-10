@@ -127,7 +127,7 @@ export default {
       await array.forEach((card) => {
         this.deck.push(card);
       });
-      await times(oldLength)(() => this.deck.pop());
+      await times(oldLength - 1)(() => this.deck.pop());
       this.deckLength = array.length;
       this.currentCardCount = 0;
       this.loading = false;
