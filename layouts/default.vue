@@ -1,12 +1,7 @@
 <template>
   <div id="container">
     <topBar />
-
     <nuxt />
-
-    <template v-if="!online">
-      <div>Bitte stelle eine Internetverbindung her</div>
-    </template>
     <bottomBar />
   </div>
 </template>

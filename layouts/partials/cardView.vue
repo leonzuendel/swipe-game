@@ -10,8 +10,13 @@
         :interact-x-threshold="130"
         :interact-lock-x-axis="lockCard(index)"
         :interact-lock-y-axis="lockCard(index)"
+        :interact-lock-swipe-down="lockCard(index)"
+        :interact-lock-swipe-left="lockCard(index)"
+        :interact-lock-swipe-right="lockCard(index)"
+        :interact-lock-swipe-up="lockCard(index)"
         :class="{ next: index === 0 && currentCards.length != 1 }"
         class="card"
+        :interact-event-bus-events="index ? 1 : interactEventBusEvents"
         :style="categoryColor(card.category)"
         @draggedRight="draggedRight(index)"
         @draggedLeft="draggedLeft(index)"
@@ -53,7 +58,13 @@
 </template>
 
 <script>
-import { Vue2InteractDraggable } from "vue2-interact";
+import { Vue2InteractDraggable, InteractEventBus } from "vue2-interact";
+
+const INTERACT_DRAGGED_DOWN = "INTERACT_DRAGGED_DOWN";
+const INTERACT_DRAGGED_LEFT = "INTERACT_DRAGGED_LEFT";
+const INTERACT_DRAGGED_RIGHT = "INTERACT_DRAGGED_RIGHT";
+const INTERACT_DRAGGED_UP = "INTERACT_DRAGGED_UP";
+
 export default {
   components: {
     Vue2InteractDraggable
@@ -100,11 +111,25 @@ export default {
       loading: true,
       currentCards: [],
       lock1: false,
-      lock0: true
+      lock0: true,
+      interactEventBusEvents: {
+        draggedDown: INTERACT_DRAGGED_DOWN,
+        draggedLeft: INTERACT_DRAGGED_LEFT,
+        draggedRight: INTERACT_DRAGGED_RIGHT,
+        draggedUp: INTERACT_DRAGGED_UP
+      }
     };
   },
 
   computed: {},
+  created() {
+    // eslint-disable-next-line nuxt/no-globals-in-created
+    window.addEventListener("keyup", this.keyEvent);
+  },
+  destroyed() {
+    window.removeEventListener("keyup", this.keyEvent);
+  },
+
   async mounted() {
     await setTimeout(() => {
       this.currentCards.push(this.nextCard);
@@ -184,6 +209,37 @@ export default {
         return true;
       } else {
         return false;
+      }
+    },
+    dragDown() {
+      InteractEventBus.$emit(INTERACT_DRAGGED_DOWN);
+    },
+
+    dragLeft() {
+      InteractEventBus.$emit(INTERACT_DRAGGED_LEFT);
+    },
+
+    dragRight() {
+      InteractEventBus.$emit(INTERACT_DRAGGED_RIGHT);
+    },
+
+    dragUp() {
+      InteractEventBus.$emit(INTERACT_DRAGGED_UP);
+    },
+    async keyEvent(e) {
+      const key = e.keyCode;
+      console.log(key);
+      if (key === 65) {
+        await this.dragLeft();
+      }
+      if (key === 68) {
+        await this.dragRight();
+      }
+      if (key === 87) {
+        await this.dragUp();
+      }
+      if (key === 83) {
+        await this.dragDown();
       }
     }
   }

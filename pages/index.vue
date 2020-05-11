@@ -105,7 +105,7 @@ export default {
       await this.currentCardCount++;
       this.$store.dispatch("saveCurrentCardCount", this.currentCardCount);
       this.$store.dispatch("saveCurrentDeckLength", this.deckLength);
-      if (this.deckLength < 9) {
+      if (this.deckLength < 10) {
         this.loadNewDeck();
       }
     },
