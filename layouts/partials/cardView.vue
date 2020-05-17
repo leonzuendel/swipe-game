@@ -16,7 +16,7 @@
         :interact-lock-swipe-up="lockCard(index)"
         :class="{ next: index === 0 && currentCards.length != 1 }"
         class="card"
-        :interact-event-bus-events="index ? 1 : interactEventBusEvents"
+        :interact-event-bus-events="eventBus(index)"
         :style="categoryColor(card.category)"
         @draggedRight="draggedRight(index)"
         @draggedLeft="draggedLeft(index)"
@@ -25,7 +25,10 @@
       >
         <div class="card-content">
           <div class="card-symbols">
-            <h1><i class="las la-coins"></i> {{ card.cost_gold }}</h1>
+            <h1>
+              <i class="las la-coins"></i>
+              {{ card.cost_gold }}
+            </h1>
             <div
               v-for="entry in resourcesCosts(card.cost_resources)"
               :key="entry.res"
@@ -34,7 +37,8 @@
               <template
                 v-if="resource(entry.res) != null && cardsAreReady === true"
               >
-                <i :class="resource(entry.res).icon"></i> {{ entry.cost }}
+                <i :class="resource(entry.res).icon"></i>
+                {{ entry.cost }}
               </template>
             </div>
           </div>
@@ -209,6 +213,13 @@ export default {
         return true;
       } else {
         return false;
+      }
+    },
+    eventBus(index) {
+      if (index === 0) {
+        return {};
+      } else {
+        return this.interactEventBusEvents;
       }
     },
     dragDown() {

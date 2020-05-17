@@ -75,13 +75,15 @@ export const actions = {
     const deck = await Object.assign({}, data.deck);
     const count = await data.currentCardCount.toString();
     const length = await data.deckLength.toString();
-    await this.$fireDb.ref("users/" + userId).set({
-      deck: {
-        currentCardCount: count,
-        currentDeck: deck,
-        currentDeckLength: length
-      }
-    });
+    if (userId !== undefined && userId !== null) {
+      await this.$fireDb.ref("users/" + userId).set({
+        deck: {
+          currentCardCount: count,
+          currentDeck: deck,
+          currentDeckLength: length
+        }
+      });
+    }
   },
 
   loadData({ commit, dispatch }) {
