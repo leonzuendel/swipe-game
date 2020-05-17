@@ -29,18 +29,20 @@
               <i class="las la-coins"></i>
               {{ card.cost_gold }}
             </h1>
-            <div
-              v-for="entry in resourcesCosts(card.cost_resources)"
-              :key="entry.res"
-              class="resource-costs"
-            >
-              <template
-                v-if="resource(entry.res) != null && cardsAreReady === true"
+            <template v-if="card.cost_resources !== null">
+              <div
+                v-for="entry in resourcesCosts(card.cost_resources)"
+                :key="entry.res"
+                class="resource-costs"
               >
-                <i :class="resource(entry.res).icon"></i>
-                {{ entry.cost }}
-              </template>
-            </div>
+                <template
+                  v-if="resource(entry.res) != null && cardsAreReady === true"
+                >
+                  <i :class="resource(entry.res).icon"></i>
+                  {{ entry.cost }}
+                </template>
+              </div>
+            </template>
           </div>
           <div class="card-title">
             <h1>{{ card.title }}</h1>

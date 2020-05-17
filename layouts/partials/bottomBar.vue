@@ -1,6 +1,7 @@
 <template>
   <div id="bottom-bar">
     <Logout />
+    Gold: {{ this.$store.state.gold }} <br />
     Aktuelle Position im Stapel: {{ this.$store.state.currentCardCount }} von
     {{ this.$store.state.deckLength }}<br />
     Aktueller Stapel (ID-Array): {{ this.$store.state.deck }}

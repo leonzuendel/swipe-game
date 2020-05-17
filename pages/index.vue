@@ -93,11 +93,9 @@ export default {
     this.currentCardCount = this.$store.state.currentCardCount;
     // window.setInterval(() => {}, 10000);
   },
-  async beforeDestroy() {
+  beforeDestroy() {
     this.$store.dispatch("saveCurrentCardCount", this.currentCardCount);
     this.$store.dispatch("saveCurrentDeckLength", this.deckLength);
-    await this.$store.dispatch("logOutUser");
-    this.$router.push("/login");
   },
   methods: {
     async loadNextCards() {
