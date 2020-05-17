@@ -102,9 +102,7 @@ export default {
   methods: {
     async loadNextCards() {
       await this.currentCardCount++;
-
-      if (this.deckLength <= this.currentCardCount + 2) {
-        console.log("Loading new deck");
+      if (this.deckLength === this.currentCardCount + 2) {
         await this.loadNewDeck();
         this.$store.dispatch("saveCurrentCardCount", this.currentCardCount);
         this.$store.dispatch("saveCurrentDeckLength", this.deckLength);
@@ -115,6 +113,7 @@ export default {
     },
 
     loadNewDeck() {
+      console.log("Loading new deck");
       const times = (x) => (f) => {
         if (x > 0) {
           f();
@@ -152,6 +151,7 @@ export default {
     },
 
     async setDeck(array) {
+      console.log("setting deck");
       const times = (x) => (f) => {
         if (x > 0) {
           f();
@@ -159,12 +159,14 @@ export default {
         }
       };
       const oldLength = await this.deck.length;
+      await times(oldLength - 2)(() => this.deck.shift());
       await array.forEach((card) => {
         this.deck.push(card);
       });
-      await times(oldLength - 2)(() => this.deck.pop());
-      this.deckLength = await array.length;
+      this.deckLength = await this.deck.length;
       this.currentCardCount = 0;
+
+      this.$store.dispatch("saveCurrentCardCount", this.currentCardCount);
       this.loading = false;
 
       this.$store.dispatch("saveCurrentDeckLength", this.deckLength);
