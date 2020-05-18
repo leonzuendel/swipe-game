@@ -12,7 +12,8 @@
         :interact-lock-y-axis="lockCard(index)"
         :interact-lock-swipe-down="lockCard(index)"
         :interact-lock-swipe-left="lockCard(index)"
-        :interact-lock-swipe-right="lockBuy(index)"
+        :interact-lock-swipe-right="lockCard(index)"
+        :interact-block-drag-right="lockBuy(index)"
         :interact-lock-swipe-up="lockCard(index)"
         :class="{ next: index === 0 && currentCards.length != 1 }"
         class="card"
@@ -223,25 +224,14 @@ export default {
       }
     },
     lockBuy(index) {
-      const cardGoldCost = this.currentCard.cost_gold;
-
-      console.log(cardGoldCost);
-
-      console.log(this.$store.state.gold);
-
-      if (this.$store.state.userResources[2] > 0) {
-        if (index === 0) {
+      const cardGoldCost = this.currentCards[index].cost_gold;
+      if (index === 1) {
+        if (cardGoldCost <= this.$store.state.gold) {
+          return false;
+        } else {
+          console.log("zu teuer");
           return true;
-        } else if (index !== 0) {
-          if (cardGoldCost <= this.$store.state.gold) {
-            return false;
-          } else {
-            console.log("zu teuer");
-            return true;
-          }
         }
-      } else {
-        return true;
       }
     },
     eventBus(index) {
