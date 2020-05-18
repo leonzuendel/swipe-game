@@ -191,7 +191,7 @@ export default {
       await this.buyCard();
     },
     async removeCard(index) {
-      this.changeResource(2, 1);
+      this.useResource(2, 1);
       await setTimeout(() => {
         this.currentCards.pop();
       }, 80);
@@ -283,7 +283,7 @@ export default {
         this.removeCard(index);
       }
     },
-    changeResource(resInt, minus) {
+    useResource(resInt, minus) {
       const res = resInt.toString();
       const current = this.$store.state.userResources[res];
       const newResInt = current - minus;
