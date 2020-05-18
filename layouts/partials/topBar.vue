@@ -29,7 +29,6 @@ export default {
   },
   methods: {
     resourcesByIds(res) {
-      console.log(this.userResources);
       const output = Object.entries(res).map(([res, amount]) => ({
         res,
         amount
