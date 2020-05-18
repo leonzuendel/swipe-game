@@ -5,6 +5,7 @@ export const state = () => ({
   loading: true,
   user: null,
   gold: 100,
+  userCards: [],
   currentCardCount: 0,
   deckLength: 0,
   cards: [],
@@ -37,6 +38,7 @@ export const actions = {
   async logOutUser({ commit, dispatch, state, getters }) {
     const userId = getters.userId;
     const gold = state.gold;
+    const userCards = state.userCards;
     const currentCardCount = state.currentCardCount;
     const deck = state.deck;
     const deckLength = state.deckLength;
@@ -45,7 +47,8 @@ export const actions = {
       currentCardCount,
       deck,
       deckLength,
-      gold
+      gold,
+      userCards
     });
 
     await this.$fireAuth.signOut().then(
@@ -63,6 +66,7 @@ export const actions = {
   async quickSave({ commit, dispatch, state, getters }) {
     const userId = getters.userId;
     const gold = state.gold;
+    const userCards = state.userCards;
     const currentCardCount = state.currentCardCount;
     const deck = state.deck;
     const deckLength = state.deckLength;
@@ -71,7 +75,8 @@ export const actions = {
       currentCardCount,
       deck,
       deckLength,
-      gold
+      gold,
+      userCards
     });
   },
 
@@ -79,12 +84,14 @@ export const actions = {
     console.log(data.gold);
     const userId = await data.userId;
     const deck = await Object.assign({}, data.deck);
+    const userCards = await Object.assign({}, data.userCards);
     const count = await data.currentCardCount.toString();
     const length = await data.deckLength.toString();
     const userGold = await data.gold.toString();
     if (userId !== undefined && userId !== null) {
       await this.$fireDb.ref("users/" + userId).set({
         gold: userGold,
+        cards: userCards,
         deck: {
           currentCardCount: count,
           currentDeck: deck,
@@ -102,6 +109,7 @@ export const actions = {
     const userId = await getters.userId;
     let deck = null;
     let gold = null;
+    let userCards = null;
     await this.$fireDb
       .ref("/users/" + userId)
       .once("value")
@@ -109,6 +117,7 @@ export const actions = {
         if (snapshot.val() !== null && snapshot.val() !== undefined) {
           deck = snapshot.val().deck;
           gold = snapshot.val().gold;
+          userCards = snapshot.val().cards;
 
           if (deck.currentDeck !== null && deck.currentDeck !== undefined) {
             const currentDeckArray = Object.values(deck.currentDeck);
@@ -121,10 +130,17 @@ export const actions = {
             console.log("loaded deck");
           }
 
-          if (deck.gold !== null && deck.gold !== undefined) {
+          if (gold !== null && gold !== undefined) {
             commit("SET_GOLD", parseInt(gold));
 
             console.log("loaded gold");
+          }
+
+          if (userCards !== null && userCards !== undefined) {
+            const currentCardsArray = Object.values(userCards);
+            commit("SET_USER_CARDS", currentCardsArray);
+
+            console.log("loaded user cards");
           }
         }
       });
@@ -156,6 +172,10 @@ export const actions = {
       array.push(card.id);
     });
     await commit("SET_CURRENT_DECK", array);
+  },
+
+  addUserCard({ commit }, card) {
+    commit("ADD_USER_CARD", card);
   }
 };
 
@@ -189,6 +209,12 @@ export const mutations = {
   },
   SET_CURRENT_DECK_LENGTH(state, payload) {
     state.deckLength = payload;
+  },
+  ADD_USER_CARD(state, payload) {
+    state.userCards.push(payload);
+  },
+  SET_USER_CARDS(state, payload) {
+    state.userCards = payload;
   }
 };
 

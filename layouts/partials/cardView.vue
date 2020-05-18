@@ -257,10 +257,12 @@ export default {
     },
     buyCard(index) {
       const cardGoldCost = this.currentCard.cost_gold;
+      const cardId = this.currentCard.id;
       if (cardGoldCost <= this.$store.state.gold) {
         const newGold = this.$store.state.gold - cardGoldCost;
         this.$store.dispatch("saveGold", newGold);
         this.removeCard(index);
+        this.$store.dispatch("addUserCard", cardId);
         console.log(this.currentCard.title + " gekauft!");
       } else {
         alert("Karte ist zu teuer.");
