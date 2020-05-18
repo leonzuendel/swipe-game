@@ -10,6 +10,11 @@ export const state = () => ({
   deckLength: 0,
   cards: [],
   deck: [],
+  userResources: {
+    "2": 50, // food
+    "1": 10, // wood
+    "3": 10 // stone
+  },
   categories: [],
   resources: []
 });
@@ -41,6 +46,7 @@ export const actions = {
     const userCards = state.userCards;
     const currentCardCount = state.currentCardCount;
     const deck = state.deck;
+    const resources = state.userResources;
     const deckLength = state.deckLength;
     await dispatch("saveDeck", {
       userId,
@@ -48,7 +54,8 @@ export const actions = {
       deck,
       deckLength,
       gold,
-      userCards
+      userCards,
+      resources
     });
 
     await this.$fireAuth.signOut().then(
@@ -69,6 +76,7 @@ export const actions = {
     const userCards = state.userCards;
     const currentCardCount = state.currentCardCount;
     const deck = state.deck;
+    const resources = state.userResources;
     const deckLength = state.deckLength;
     await dispatch("saveDeck", {
       userId,
@@ -76,13 +84,14 @@ export const actions = {
       deck,
       deckLength,
       gold,
-      userCards
+      userCards,
+      resources
     });
   },
 
   async saveDeck({ commit }, data) {
-    console.log(data.gold);
     const userId = await data.userId;
+    const userResources = await JSON.stringify(data.resources);
     const deck = await Object.assign({}, data.deck);
     const userCards = await Object.assign({}, data.userCards);
     const count = await data.currentCardCount.toString();
@@ -91,6 +100,7 @@ export const actions = {
     if (userId !== undefined && userId !== null) {
       await this.$fireDb.ref("users/" + userId).set({
         gold: userGold,
+        resources: userResources,
         cards: userCards,
         deck: {
           currentCardCount: count,
@@ -110,6 +120,7 @@ export const actions = {
     let deck = null;
     let gold = null;
     let userCards = null;
+    let resources = null;
     await this.$fireDb
       .ref("/users/" + userId)
       .once("value")
@@ -118,6 +129,7 @@ export const actions = {
           deck = snapshot.val().deck;
           gold = snapshot.val().gold;
           userCards = snapshot.val().cards;
+          resources = snapshot.val().resources;
 
           if (deck.currentDeck !== null && deck.currentDeck !== undefined) {
             const currentDeckArray = Object.values(deck.currentDeck);
@@ -141,6 +153,13 @@ export const actions = {
             commit("SET_USER_CARDS", currentCardsArray);
 
             console.log("loaded user cards");
+          }
+
+          if (resources !== null && resources !== undefined) {
+            const json = JSON.parse(resources);
+            commit("SET_USER_RESOURCES", json);
+
+            console.log("loaded user resources");
           }
         }
       });
@@ -176,6 +195,13 @@ export const actions = {
 
   addUserCard({ commit }, card) {
     commit("ADD_USER_CARD", card);
+  },
+
+  saveUserResources({ commit }, resources) {
+    commit("SET_USER_RESOURCES", resources);
+  },
+  changeUserResources({ commit }, data) {
+    commit("CHANGE_USER_RESOURCES", data);
   }
 };
 
@@ -204,17 +230,28 @@ export const mutations = {
   SET_CURRENT_CARD_COUNT(state, payload) {
     state.currentCardCount = payload;
   },
+
   SET_CURRENT_DECK(state, payload) {
     state.deck = payload;
   },
+
   SET_CURRENT_DECK_LENGTH(state, payload) {
     state.deckLength = payload;
   },
+
   ADD_USER_CARD(state, payload) {
     state.userCards.push(payload);
   },
+
   SET_USER_CARDS(state, payload) {
     state.userCards = payload;
+  },
+
+  SET_USER_RESOURCES(state, payload) {
+    state.userResources = payload;
+  },
+  CHANGE_USER_RESOURCES(state, payload) {
+    state.userResources[payload.res] = payload.amount;
   }
 };
 

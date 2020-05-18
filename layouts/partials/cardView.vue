@@ -191,6 +191,7 @@ export default {
       await this.buyCard();
     },
     async removeCard(index) {
+      this.changeResource(2, 1);
       await setTimeout(() => {
         this.currentCards.pop();
       }, 80);
@@ -211,10 +212,14 @@ export default {
       }, 85);
     },
     lockCard(index) {
-      if (index === 0) {
-        return true;
+      if (this.$store.state.userResources[2] > 0) {
+        if (index === 0) {
+          return true;
+        } else {
+          return false;
+        }
       } else {
-        return false;
+        return true;
       }
     },
     eventBus(index) {
@@ -225,23 +230,31 @@ export default {
       }
     },
     dragDown() {
-      InteractEventBus.$emit(INTERACT_DRAGGED_DOWN);
+      if (this.$store.state.userResources[2] > 0) {
+        InteractEventBus.$emit(INTERACT_DRAGGED_DOWN);
+      }
     },
 
     dragLeft() {
-      InteractEventBus.$emit(INTERACT_DRAGGED_LEFT);
+      if (this.$store.state.userResources[2] > 0) {
+        InteractEventBus.$emit(INTERACT_DRAGGED_LEFT);
+      }
     },
 
     dragRight() {
-      InteractEventBus.$emit(INTERACT_DRAGGED_RIGHT);
+      if (this.$store.state.userResources[2] > 0) {
+        InteractEventBus.$emit(INTERACT_DRAGGED_RIGHT);
+      }
     },
 
     dragUp() {
-      InteractEventBus.$emit(INTERACT_DRAGGED_UP);
+      if (this.$store.state.userResources[2] > 0) {
+        InteractEventBus.$emit(INTERACT_DRAGGED_UP);
+      }
     },
     async keyEvent(e) {
       const key = e.keyCode;
-      console.log(key);
+
       if (key === 65) {
         await this.dragLeft();
       }
@@ -258,6 +271,7 @@ export default {
     buyCard(index) {
       const cardGoldCost = this.currentCard.cost_gold;
       const cardId = this.currentCard.id;
+
       if (cardGoldCost <= this.$store.state.gold) {
         const newGold = this.$store.state.gold - cardGoldCost;
         this.$store.dispatch("saveGold", newGold);
@@ -268,6 +282,17 @@ export default {
         alert("Karte ist zu teuer.");
         this.removeCard(index);
       }
+    },
+    changeResource(resInt, minus) {
+      const res = resInt.toString();
+      const current = this.$store.state.userResources[res];
+      const newResInt = current - minus;
+      const newRes = newResInt.toString();
+      const resource = res.toString();
+      this.$store.dispatch("changeUserResources", {
+        res: resource,
+        amount: newRes
+      }); // res, amount
     }
   }
 };
