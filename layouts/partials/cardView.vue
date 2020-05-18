@@ -186,9 +186,9 @@ export default {
       console.log("Left!");
       this.removeCard(index);
     },
-    draggedRight(index) {
+    async draggedRight(index) {
       console.log("Right!");
-      this.removeCard(index);
+      await this.buyCard();
     },
     async removeCard(index) {
       await setTimeout(() => {
@@ -253,6 +253,18 @@ export default {
       }
       if (key === 83) {
         await this.dragDown();
+      }
+    },
+    buyCard(index) {
+      const cardGoldCost = this.currentCard.cost_gold;
+      if (cardGoldCost <= this.$store.state.gold) {
+        const newGold = this.$store.state.gold - cardGoldCost;
+        this.$store.dispatch("saveGold", newGold);
+        this.removeCard(index);
+        console.log(this.currentCard.title + " gekauft!");
+      } else {
+        alert("Karte ist zu teuer.");
+        this.removeCard(index);
       }
     }
   }
